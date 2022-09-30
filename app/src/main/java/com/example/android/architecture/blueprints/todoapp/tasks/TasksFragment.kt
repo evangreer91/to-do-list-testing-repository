@@ -30,6 +30,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android.architecture.blueprints.todoapp.EventObserver
 import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.TodoApplication
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.DefaultTasksRepository
 import com.example.android.architecture.blueprints.todoapp.databinding.TasksFragBinding
@@ -44,8 +45,9 @@ import timber.log.Timber
  */
 class TasksFragment : Fragment() {
 
+    // pass in the task repository from the application context into the view model factory
     private val viewModel by viewModels<TasksViewModel> {
-        TasksViewModelFactory(DefaultTasksRepository.getRepository(requireActivity().application))
+        TasksViewModelFactory((requireContext().applicationContext as TodoApplication).taskRepository)
     }
 
     private val args: TasksFragmentArgs by navArgs()
