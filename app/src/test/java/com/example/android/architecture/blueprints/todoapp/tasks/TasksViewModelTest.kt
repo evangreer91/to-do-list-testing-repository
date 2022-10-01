@@ -18,6 +18,7 @@ package com.example.android.architecture.blueprints.todoapp.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.FakeTestRepository
@@ -39,21 +40,12 @@ import org.robolectric.annotation.Config
 @Config(manifest=Config.NONE)
 class TasksViewModelTest {
 
-    // the main looper is not available for local testing
-    // we can create a test dispatcher and swap out Dispatchers.Main
-    val testDispatcher : TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-    @Before
-    fun setupDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    // after each test, reset Dispatchers.Main and clean up any running coroutines
-    @After
-    fun tearDownDispatcher() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-    }
+    // get coroutine rule
+    // creates a testCoroutineDispatcher
+    // swaps Dispatcher.Main for this dispatcher
+    // generally, make a single TestCoroutineDispatcher
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     // Subject under test
     private lateinit var tasksViewModel: TasksViewModel
