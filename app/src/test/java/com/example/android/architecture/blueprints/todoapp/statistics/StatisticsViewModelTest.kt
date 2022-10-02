@@ -7,7 +7,7 @@ import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.Matchers.`is`
 import org.junit.Rule
-import org.junit.Assert.*
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -50,5 +50,16 @@ class StatisticsViewModelTest {
         // Then progress indicator is hidden.
         mainCoroutineRule.resumeDispatcher()
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(false))
+    }
+
+    @Test
+    fun loadStatisticsWhenTasksAreUnavailable_callErrorToDisplay() {
+        // make the repository return errors
+        tasksRepository.setReturnError(true)
+        statisticsViewModel.refresh()
+
+        // Then empty and error are true (which triggers an error message to be shown)
+        assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is` (true))
+        assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is` (true))
     }
 }

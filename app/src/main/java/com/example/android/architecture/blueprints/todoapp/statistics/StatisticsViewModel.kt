@@ -46,6 +46,8 @@ class StatisticsViewModel(private val tasksRepository: TasksRepository) : ViewMo
         it?.activeTasksPercent ?: 0f }
     val completedTasksPercent: LiveData<Float> = stats.map { it?.completedTasksPercent ?: 0f }
     val dataLoading: LiveData<Boolean> = _dataLoading
+
+    // live data indicated if a task is an error or empty
     val error: LiveData<Boolean> = tasks.map { it is Error }
     val empty: LiveData<Boolean> = tasks.map { (it as? Success)?.data.isNullOrEmpty() }
 
