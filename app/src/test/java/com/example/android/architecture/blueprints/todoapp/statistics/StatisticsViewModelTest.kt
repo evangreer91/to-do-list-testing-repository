@@ -60,6 +60,6 @@ class StatisticsViewModelTest {
 
         // Then empty and error are true (which triggers an error message to be shown)
         assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is` (true))
-        assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is` (true))
+        assertThat(statisticsViewModel.error.getOrAwaitValue(), `is` (true))
     }
 }

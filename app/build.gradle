@@ -21,13 +21,14 @@ android {
         }
     }
 
-    //dataBinding {
-    //    enabled = true
-    //    enabledForTests = true
-    //}
-    buildFeatures {
-        dataBinding true
+    dataBinding {
+        enabled = true
+        enabledForTests = true
     }
+
+//    buildFeatures {
+//        dataBinding true
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +40,13 @@ android {
 
     packagingOptions {
         exclude 'META-INF/*'
+    }
+
+    // Always show the result of every unit test when running via command line, even if it passes
+    // returnDefaultValues is required to not break our unit tests
+    testOptions.unitTests {
+        includeAndroidResources = true
+        returnDefaultValues = true
     }
 }
 
@@ -80,11 +88,13 @@ dependencies {
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
     implementation "androidx.fragment:fragment-testing:$fragmentVersion"
     implementation "androidx.test:core:$androidXTestCoreVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     // AndroidX Test - Instrumented testing
     androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
 
     // Add the following for InstantTaskExecutorRule class. https://stackoverflow.com/a/56073388
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
